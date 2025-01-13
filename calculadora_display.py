@@ -103,4 +103,4 @@ b16.place(x=262.5, y=280,  width=87.5, height=70)
 
 calcular()
 
-janela.mainloop() # comando que usa a biblioteca Tkinter em Python, que serve para criar interfaces gráficas (GUIs).Nesse a calculadora.
+janela.mainloop() 
