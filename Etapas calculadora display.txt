@@ -1,0 +1,16 @@
+Etapa 1
+cirar e importar as bibliotecas necessárias para dentro do escopo do projeto
+# from tkimter import *
+# from tkimter import ttk
+
+Etapa 2
+criar a janela e fazer as configurações básicas
+
+Etapa 3 
+divida a janela em dois quadros e fazer congirações 
+
+Etapa 4
+criar os botões do corpo 
+
+Etapa 5
+verificar as cofigurações 
