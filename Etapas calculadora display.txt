@@ -1,16 +1,18 @@
-Etapa 1
-cirar e importar as bibliotecas necessárias para dentro do escopo do projeto
-# from tkimter import *
-# from tkimter import ttk
+📌 Etapa 1 – Importação das Bibliotecas
+Importar as bibliotecas necessárias para o funcionamento da interface gráfica:
 
-Etapa 2
-criar a janela e fazer as configurações básicas
+from tkinter import *
+from tkinter import ttk
 
-Etapa 3 
-divida a janela em dois quadros e fazer congirações 
+📌 Etapa 2 – Criação da Janela Principal
+Definir a janela principal da aplicação e aplicar as configurações iniciais (título, tamanho, etc.).
 
-Etapa 4
-criar os botões do corpo 
+📌 Etapa 3 – Organização em Quadros
+Dividir a janela em dois frames (ou quadros) para estruturar a interface e facilitar o posicionamento dos elementos.
 
-Etapa 5
-verificar as cofigurações 
+📌 Etapa 4 – Criação dos Botões
+Criar os botões da calculadora (números, operações e controle) e posicioná-los corretamente nos quadros definidos.
+
+📌 Etapa 5 – Testes e Ajustes
+Revisar a interface, verificar o funcionamento dos botões e realizar os ajustes finais de layout e funcionalidades.
+
