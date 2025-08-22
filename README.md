@@ -15,14 +15,6 @@ para treinar conceitos de **interfaces gráficas (GUI)** e **lógica de programa
 
 ---
 
-## 📸 Interface da Calculadora
-
-> (💡 Adicione aqui uma imagem ou print da calculadora. Exemplo abaixo:)
-
-![Interface da calculadora](caminho/para/sua/imagem.png)
-
----
-
 ⚙️ Etapas do Desenvolvimento
 
 ✅ Etapa 1 – Importação das Bibliotecas python
