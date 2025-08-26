@@ -1,39 +1,34 @@
-🧮 Calculadora em Python com Tkinter
+🧮 Calculadora em Python
 
-Este projeto consiste no desenvolvimento de uma **calculadora gráfica** utilizando a biblioteca <strong>`TKINTER`</strong> do Python. A aplicação conta com uma interface simples, funcional e interativa, ideal
-para treinar conceitos de **interfaces gráficas (GUI)** e **lógica de programação**.
+Este projeto é uma calculadora simples desenvolvida em Python com interface gráfica usando Tkinter.
+O objetivo foi praticar conceitos básicos de programação, manipulação de variáveis e construção de interface gráfica.
 
----
+⚙️ Funcionalidades
 
-🚀 Funcionalidades
+➕ Adição
 
-- Interface gráfica com `Tkinter`
-- Botões numéricos e de operações básicas
-- Tela de exibição dos cálculos
-- Organização em `frames` para melhor layout
-- Fácil customização e extensão
+➖ Subtração
 
----
+✖️ Multiplicação
 
-⚙️ Etapas do Desenvolvimento
+➗ Divisão
 
-✅ Etapa 1 – Importação das Bibliotecas python
+🧹 Limpar os valores
 
-✅ Etapa 2 – Criação da Janela Principal
-Configuração inicial da janela (título, tamanho, cor de fundo etc.).
+✅ Exibir erros de forma amigável
 
-✅ Etapa 3 – Organização com Frames
-Divisão da janela em dois frames (superior e inferior), separando a tela dos botões.
+🖥️ Tecnologias utilizadas
 
-✅ Etapa 4 – Criação dos Botões
-Implementação dos botões numéricos, operadores, botão de limpar (C) e botão de resultado (=).
+Python 
 
-✅ Etapa 5 – Verificações Finais
-Testes de funcionamento, ajustes visuais e refino do código.
+Tkinter (para interface gráfica)
 
-📦 Requisitos
-Python 3.7+
+📚 Aprendizados
 
-Biblioteca tkinter (já vem com o Python padrão)
+Durante o desenvolvimento deste projeto, pratiquei:
 
+Estruturas básicas em Python
 
+Funções e manipulação de variáveis globais
+
+Uso da biblioteca Tkinter para criar GUIs
