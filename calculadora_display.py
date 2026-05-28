@@ -1,76 +1,139 @@
-from tkinter import *
+from tkinter import Button, Frame, Label, StringVar, Tk
 
-# Cores
-cor1 = '#000000'
-cor2 = '#76ABAE'
-cor3 = '#E2E2B6'
-cor4 = '#FF9D3D'
-cor5 = '#feffff'
+from calculator_engine import CalculatorError, calculate
 
-# Janela
-janela = Tk()
-janela.title('Calculadora')
-janela.geometry('350x451')
 
-# Frames
-frame_display = Frame(janela, width=350, height=100, background=cor2)
-frame_display.grid(row=0, column=0)
+COLORS = {
+    "background": "#121212",
+    "display": "#1F6F78",
+    "button": "#F4F4F2",
+    "button_text": "#111111",
+    "operator": "#76ABAE",
+    "operator_text": "#FFFFFF",
+    "accent": "#FF9D3D",
+    "accent_text": "#FFFFFF",
+}
 
-frame_corpo = Frame(janela, width=350, height=350)
-frame_corpo.grid(row=1, column=0)
 
-# Variáveis
-valor_texto = StringVar()
-expressao = ""  # aqui vamos armazenar o que o usuário digita
+class CalculatorApp:
+    def __init__(self) -> None:
+        self.window = Tk()
+        self.window.title("Calculadora")
+        self.window.geometry("350x470")
+        self.window.resizable(False, False)
+        self.window.configure(background=COLORS["background"])
 
-# Funções
+        self.expression = ""
+        self.display_value = StringVar()
 
-def adicionar_valor(valor):
-    global expressao # Diz para o Python que a função vai usar e modificar a variável expressao que está fora da função (global), e não criar uma nova só dentro dela.
-    expressao += str(valor) # Pega o que já está armazenado em expressao e concatena com o novo valor recebido.
-    valor_texto.set(expressao) # Atualiza o display da calculadora (o Label que está vinculado ao valor_texto) com a nova expressão. Isso faz a tela mostrar exatamente o que você está digitando.
+        self._build_layout()
+        self._bind_keyboard()
 
-def calcular():
-    global expressao # Diz que a função vai usar a variável global expressao (onde estão armazenados os números e operações que o usuário digitou).
-    try: # Bloco para tentar executar o cálculo. Se algo der errado (ex.: usuário digitou 5/0), cai no except.
-        resultado = eval(expressao) # Usa a função eval() para interpretar a string expressao como código Python e calcular.Exemplo:expressao = "5+3*2"eval("5+3*2") → retorna 11.        
-        valor_texto.set(str(resultado)) # Atualiza o display da calculadora com o resultado.
-        expressao = str(resultado)  # Atualiza a variável expressao para o resultado.
-    except: # Se der erro (ex.: divisão por zero, ou expressão inválida), mostra "Erro" no display e limpa a variável expressao.
-        valor_texto.set("Erro")
-        expressao = ""
+    def run(self) -> None:
+        self.window.mainloop()
 
-def limpar(): # Define a função que será chamada quando o usuário clicar no botão C (Clear).
-    global expressao 
-    expressao = "" # Limpa a variável expressao, ou seja, apaga tudo o que o usuário digitou até agora. 
-    valor_texto.set("") # Atualiza o display da calculadora para ficar vazio (sem mostrar nada).
+    def _build_layout(self) -> None:
+        display_frame = Frame(self.window, width=350, height=110, bg=COLORS["display"])
+        display_frame.grid(row=0, column=0)
+        display_frame.grid_propagate(False)
 
-# Display
-app_label = Label(frame_display, textvariable=valor_texto, anchor='e', padx=40, font=('Arial 30'), bg=cor2, fg=cor5)
-app_label.place(x=15, y=5, width=320, height=90)
+        body_frame = Frame(self.window, width=350, height=360, bg=COLORS["background"])
+        body_frame.grid(row=1, column=0)
+        body_frame.grid_propagate(False)
 
-# Botões
-Button(frame_corpo, text='C', bg=cor4, fg=cor5, font=('Ivy 20 bold'), relief=RAISED, command=limpar).place(x=0, y=0, width=175, height=70)
-Button(frame_corpo, text='%', font=('Ivy 15 bold'), command=lambda: adicionar_valor('%')).place(x=175, y=0, width=87.5, height=70)
-Button(frame_corpo, text='/', font=('Ivy 15 bold'), command=lambda: adicionar_valor('/')).place(x=262.5, y=0, width=87.5, height=70)
+        display = Label(
+            display_frame,
+            textvariable=self.display_value,
+            anchor="e",
+            padx=24,
+            font=("Arial", 28, "bold"),
+            bg=COLORS["display"],
+            fg="#FFFFFF",
+        )
+        display.place(x=0, y=0, width=350, height=110)
 
-Button(frame_corpo, text='7', command=lambda: adicionar_valor(7)).place(x=0, y=70, width=87.5, height=70)
-Button(frame_corpo, text='8', command=lambda: adicionar_valor(8)).place(x=87.5, y=70, width=87.5, height=70)
-Button(frame_corpo, text='9', command=lambda: adicionar_valor(9)).place(x=175, y=70, width=87.5, height=70)
-Button(frame_corpo, text='*', font=('Ivy 15 bold'), command=lambda: adicionar_valor('*')).place(x=262.5, y=70, width=87.5, height=70)
+        buttons = [
+            ("C", 0, 0, 1, self.clear, "accent"),
+            ("⌫", 0, 1, 1, self.backspace, "accent"),
+            ("%", 0, 2, 1, lambda: self.add_value("%"), "operator"),
+            ("/", 0, 3, 1, lambda: self.add_value("/"), "operator"),
+            ("7", 1, 0, 1, lambda: self.add_value("7"), "button"),
+            ("8", 1, 1, 1, lambda: self.add_value("8"), "button"),
+            ("9", 1, 2, 1, lambda: self.add_value("9"), "button"),
+            ("*", 1, 3, 1, lambda: self.add_value("*"), "operator"),
+            ("4", 2, 0, 1, lambda: self.add_value("4"), "button"),
+            ("5", 2, 1, 1, lambda: self.add_value("5"), "button"),
+            ("6", 2, 2, 1, lambda: self.add_value("6"), "button"),
+            ("-", 2, 3, 1, lambda: self.add_value("-"), "operator"),
+            ("1", 3, 0, 1, lambda: self.add_value("1"), "button"),
+            ("2", 3, 1, 1, lambda: self.add_value("2"), "button"),
+            ("3", 3, 2, 1, lambda: self.add_value("3"), "button"),
+            ("+", 3, 3, 1, lambda: self.add_value("+"), "operator"),
+            ("0", 4, 0, 2, lambda: self.add_value("0"), "button"),
+            (".", 4, 2, 1, lambda: self.add_value("."), "button"),
+            ("=", 4, 3, 1, self.calculate_result, "accent"),
+        ]
 
-Button(frame_corpo, text='4', command=lambda: adicionar_valor(4)).place(x=0, y=140, width=87.5, height=70)
-Button(frame_corpo, text='5', command=lambda: adicionar_valor(5)).place(x=87.5, y=140, width=87.5, height=70)
-Button(frame_corpo, text='6', command=lambda: adicionar_valor(6)).place(x=175, y=140, width=87.5, height=70)
-Button(frame_corpo, text='-', font=('Ivy 15 bold'), command=lambda: adicionar_valor('-')).place(x=262.5, y=140, width=87.5, height=70)
+        for text, row, column, colspan, command, style in buttons:
+            self._create_button(body_frame, text, row, column, colspan, command, style)
 
-Button(frame_corpo, text='1', command=lambda: adicionar_valor(1)).place(x=0, y=210, width=87.5, height=70)
-Button(frame_corpo, text='2', command=lambda: adicionar_valor(2)).place(x=87.5, y=210, width=87.5, height=70)
-Button(frame_corpo, text='3', command=lambda: adicionar_valor(3)).place(x=175, y=210, width=87.5, height=70)
-Button(frame_corpo, text='+', font=('Ivy 15 bold'), command=lambda: adicionar_valor('+')).place(x=262.5, y=210, width=87.5, height=70)
+    def _create_button(self, parent, text, row, column, colspan, command, style) -> None:
+        width = 87.5 * colspan
+        x_position = column * 87.5
+        y_position = row * 72
 
-Button(frame_corpo, text='0', bg=cor4, fg=cor5, font=('Ivy 20 bold'), command=lambda: adicionar_valor(0)).place(x=0, y=280, width=175, height=70)
-Button(frame_corpo, text='.', font=('Ivy 15 bold'), command=lambda: adicionar_valor('.')).place(x=175, y=280, width=87.5, height=70)
-Button(frame_corpo, text='=', font=('Ivy 15 bold'), command=calcular).place(x=262.5, y=280, width=87.5, height=70)
+        background = COLORS[style]
+        foreground = COLORS.get(f"{style}_text", COLORS["button_text"])
 
-janela.mainloop()
+        Button(
+            parent,
+            text=text,
+            bg=background,
+            fg=foreground,
+            activebackground=background,
+            activeforeground=foreground,
+            font=("Arial", 18, "bold"),
+            relief="flat",
+            bd=0,
+            command=command,
+        ).place(x=x_position, y=y_position, width=width, height=72)
+
+    def _bind_keyboard(self) -> None:
+        self.window.bind("<Return>", lambda _event: self.calculate_result())
+        self.window.bind("<BackSpace>", lambda _event: self.backspace())
+        self.window.bind("<Escape>", lambda _event: self.clear())
+        self.window.bind("<Key>", self._handle_keypress)
+
+    def _handle_keypress(self, event) -> None:
+        if event.char in "0123456789+-*/%.":
+            self.add_value(event.char)
+
+    def add_value(self, value: str) -> None:
+        if self.display_value.get() == "Erro":
+            self.expression = ""
+
+        self.expression += value
+        self.display_value.set(self.expression)
+
+    def calculate_result(self) -> None:
+        try:
+            result = calculate(self.expression)
+        except CalculatorError:
+            self.display_value.set("Erro")
+            self.expression = ""
+            return
+
+        self.expression = str(result)
+        self.display_value.set(self.expression)
+
+    def clear(self) -> None:
+        self.expression = ""
+        self.display_value.set("")
+
+    def backspace(self) -> None:
+        self.expression = self.expression[:-1]
+        self.display_value.set(self.expression)
+
+
+if __name__ == "__main__":
+    CalculatorApp().run()

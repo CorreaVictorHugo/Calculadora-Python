@@ -1,34 +1,63 @@
-🧮 Calculadora em Python
+# Calculadora em Python
 
-Este projeto é uma calculadora simples desenvolvida em Python com interface gráfica usando Tkinter.
-O objetivo foi praticar conceitos básicos de programação, manipulação de variáveis e construção de interface gráfica.
+Calculadora desktop desenvolvida em Python com interface grafica em Tkinter.
+O projeto foi criado para praticar fundamentos de programacao, organizacao de interface e separacao entre regra de negocio e camada visual.
 
-⚙️ Funcionalidades
+## Funcionalidades
 
-➕ Adição
+- Operacoes de adicao, subtracao, multiplicacao e divisao
+- Operacao de modulo/resto com `%`
+- Suporte a numeros decimais
+- Botao para limpar a expressao
+- Botao para apagar o ultimo caractere
+- Entrada tambem pelo teclado
+- Tratamento de expressoes invalidas
+- Calculo feito sem `eval()`
 
-➖ Subtração
+## Tecnologias
 
-✖️ Multiplicação
+- Python 3
+- Tkinter
+- Unittest
 
-➗ Divisão
+## Como executar
 
-🧹 Limpar os valores
+Clone o repositorio:
 
-✅ Exibir erros de forma amigável
+```bash
+git clone https://github.com/CorreaVictorHugo/Calculadora-Python.git
+cd Calculadora-Python
+```
 
-🖥️ Tecnologias utilizadas
+Execute a aplicacao:
 
-Python 
+```bash
+python calculadora_display.py
+```
 
-Tkinter (para interface gráfica)
+## Como testar
 
-📚 Aprendizados
+```bash
+python -m unittest
+```
 
-Durante o desenvolvimento deste projeto, pratiquei:
+## Estrutura
 
-Estruturas básicas em Python
+```text
+Calculadora-Python/
+├── calculator_engine.py
+├── calculadora_display.py
+├── test_calculator_engine.py
+├── README.md
+└── .gitignore
+```
 
-Funções e manipulação de variáveis globais
+## Aprendizados
 
-Uso da biblioteca Tkinter para criar GUIs
+Durante o desenvolvimento e refatoracao deste projeto, foram praticados:
+
+- Criacao de interfaces graficas com Tkinter
+- Organizacao de codigo em modulos
+- Tratamento de erros
+- Testes automatizados com Unittest
+- Avaliacao segura de expressoes matematicas simples usando AST
