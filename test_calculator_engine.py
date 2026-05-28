@@ -14,6 +14,9 @@ class CalculatorEngineTest(unittest.TestCase):
         self.assertEqual(calculate("2+3*4"), 14)
         self.assertEqual(calculate("(2+3)*4"), 20)
 
+    def test_chained_sum(self):
+        self.assertEqual(calculate("3+3+3"), 9)
+
     def test_decimal_result(self):
         self.assertEqual(calculate("5/2"), 2.5)
 
